@@ -1,0 +1,28 @@
+<h2>Available Forms</h2>
+  <p>
+    Above list has active and deactive both the forms
+    <%= link_to '+ Add New', new_form_path, class: 'pull-right'%>
+  </p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Active</th>
+        <th>Actions</th>
+        <th>Preview</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @forms.each do |form, index|%>
+        <tr>
+          <td title="<%= form.description%>"><%= form.title%></td>
+          <td><%= form.is_active ? 'Yes' : 'No'%></td>
+          <td>
+            <%= link_to 'Edit', edit_form_path(form), class: "btn btn-primary btn-xs" %>&nbsp;|&nbsp;
+            <%= link_to 'Delete', form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-xs" %>
+          </td>
+          <td><%= link_to 'Preview', form_form_elements_path(form), class: "btn btn-success btn-xs" %></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>

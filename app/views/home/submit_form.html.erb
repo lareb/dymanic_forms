@@ -1,0 +1,32 @@
+<h1>Home#index</h1>
+<p>Find me in app/views/home/index.html.erb</p>
+
+<div id="formio"></formio>
+
+<script src="http://formio.github.io/formio.js/dist/formio.full.js"></script>
+<script type='text/javascript'>
+Formio.icons = 'fontawesome';
+Formio.createForm(document.getElementById('formio'), 'https://examples.form.io/example')
+  .then(function(form) {
+    // Prevent the submission from going to the form.io server.
+    form.nosubmit = true;
+
+    // Triggered when they click the submit button.
+    form.on('submit', function(submission) {
+      console.log(submission);
+      alert('Submission sent to custom endpoint. See developer console.');
+      return fetch('https://hookb.in/ZrRRbJBe', {
+          body: JSON.stringify(submission),
+          headers: {
+            'content-type': 'application/json'
+          },
+          method: 'POST',
+          mode: 'cors',
+        })
+        .then(response => {
+          form.emit('submitDone', submission)
+          response.json()
+        })
+    });
+  });
+</script>

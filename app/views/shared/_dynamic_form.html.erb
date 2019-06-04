@@ -1,0 +1,14 @@
+<div id="formio"></div>
+<%#= preview_element%>
+<script src="http://formio.github.io/formio.js/dist/formio.full.js"></script>
+<script type='text/javascript'>
+Formio.icons = 'fontawesome';
+Formio.createForm(document.getElementById('formio'), {
+  components: <%= preview_element.to_s.html_safe%>
+}).then(function(form) {
+  form.on('submit', function(submission) {
+    console.log("Ajax call here")
+    console.log(submission);
+  });
+});
+</script>

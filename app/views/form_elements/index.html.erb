@@ -1,0 +1,54 @@
+<div class="page-title">
+  <div class="title_left">
+    <h1><i class="fa fa-list"></i> <%= @form.title%> Fields and their defination</h1>
+  </div>
+</div>
+
+<ul class="nav nav-tabs" id="preview-tabs">
+  <li class="preview active"><a href="javascript:void(0)">Preview</a></li>
+  <li class="form"><a href="javascript:void(0)">Update fields</a></li>
+</ul>
+
+<div id="preview-section">
+  <h3>Preview</h3>
+  <%= render partial: '/shared/dynamic_form', locals: {preview_element: @preview_element}%>
+</div>
+<div id="form-section" style="display: none;">
+  <h1>Elements</h1>
+  <%= render partial: 'index', locals: {form_elements: @form_elements}%>
+</div>
+
+<hr size="30" />
+<%= link_to 'Add New Field', "javascript:void(0)", id: 'add-new-field', class: "btn btn-success btn-xs" %>
+
+<div id='new-field-form' style="display:none;">
+  <h3>Add New Field</h3>
+  <%= render 'new_form' %>
+</div>
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+    // tabs toggle
+    $("ul#preview-tabs>li").click(function(obj){
+      console.log($(this))
+      $("ul#preview-tabs>li").removeClass('active');
+      $(this).addClass('active');
+      $("#preview-section").toggle();
+      $("#form-section").toggle();
+    })
+
+    // add new field
+    $("#add-new-field").click(function(obj){
+      $('#new-field-form').toggle();
+      $(this).toggle();
+    })
+
+    $("#cancel-add-new").click(function(obj){
+      $('#new-field-form').toggle();
+      $('#add-new-field').toggle();
+    })
+
+
+  });
+
+</script>

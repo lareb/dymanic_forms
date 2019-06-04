@@ -1,0 +1,37 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Field Type</th>
+      <th>Key</th>
+      <th>Label</th>
+
+      <th>Placeholder</th>
+      <th>Tooltip</th>
+      <th>Description</th>
+
+      <th>Format</th>
+      <th>Validations</th>
+      <th>Action</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <% @form_elements.each do |el, index|%>
+      <tr>
+        <td><%= el.component_type%></td>
+        <td><%= el.key%></td>
+        <td><%= el.label%></td>
+        <td><%= el.field_placeholder%></td>
+        <td><%= el.tooltip%></td>
+        <td><%= el.description%></td>
+        <td><%= el.format%></td>
+        <td><%= el.validation%></td>
+
+        <td>
+          <%= link_to 'Edit', edit_form_form_element_path(@form, el), class: "btn btn-primary btn-xs" %>&nbsp;|&nbsp;
+          <%= link_to 'Delete', form_form_element_path(@form, el), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-xs" %>
+        </td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>

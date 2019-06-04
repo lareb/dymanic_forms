@@ -1,0 +1,138 @@
+<h1>User Details Form</h1>
+<p>Find me in app/views/home/index.html.erb</p>
+
+<div id="formio"></formio>
+
+<script src="http://formio.github.io/formio.js/dist/formio.full.js"></script>
+<script type='text/javascript'>
+Formio.icons = 'fontawesome';
+Formio.createForm(document.getElementById('formio'), {
+  components: [
+    {
+      type: 'textfield',
+      key: 'firstName',
+      label: 'First Name',
+      placeholder: 'Enter your first name.',
+      input: true,
+      tooltip: 'Enter your <strong>First Name</strong>',
+      description: 'Enter your <strong>First Name</strong>'
+    },
+    {
+      type: 'textfield',
+      key: 'lastName',
+      label: 'Last Name',
+      placeholder: 'Enter your last name',
+      input: true,
+      tooltip: 'Enter your <strong>Last Name</strong>',
+      description: 'Enter your <strong>Last Name</strong>'
+    },
+    {
+      type: 'email',
+      key: 'email',
+      label: 'Email',
+      placeholder: 'Enter your Email',
+      input: true,
+      tooltip: 'Enter your <strong>Email ID</strong>',
+      description: 'Enter your <strong>Email ID</strong>',
+      validate: {
+        required: true
+      }
+    },
+    {
+      type: 'datetime',
+      key: 'dob',
+      label: 'Date of Birth',
+      placeholder: 'Enter your DOB',
+      input: true,
+      format: 'dd MMM yyyy',
+      enableDate: true,
+      enableTime: false,
+      datePicker: true,
+      defaultDate: "1999-12-31",
+      validate: {
+        maxDate: "1999-12-31"
+      }
+    },
+    {
+      type: 'phoneNumber',
+      key: 'customerMobile',
+      label: 'Mobile Number',
+      placeholder: 'Enter your Mobile number',
+      inputMask: "(999) 999-9999",
+      input: true,
+      validate: {
+        required: true
+      },
+    },
+    {
+      type: "radio",
+      label: "Gender",
+      key: "gender",
+      values: [
+        {
+          label: 'Male',
+          value: 'm'
+        },
+        {
+          label: 'Female',
+          value: 'f'
+        },
+        {
+          label: 'Other',
+          value: 'o'
+        }
+      ]
+    },
+    {
+      type: "select",
+      label: "Favorite Things",
+      key: "favoriteThings",
+      placeholder: "These are a few of your favorite things...",
+      data: {
+        values: [
+          {
+            value: "raindropsOnRoses",
+            label: "Raindrops on roses"
+          },
+          {
+            value: "whiskersOnKittens",
+            label: "Whiskers on Kittens"
+          },
+          {
+            value: "brightCopperKettles",
+            label: "Bright Copper Kettles"
+          },
+          {
+            value: "warmWoolenMittens",
+            label: "Warm Woolen Mittens"
+          }
+        ]
+      },
+      dataSrc: "values",
+      template: "<span>{{ item.label }}</span>",
+      multiple: false,
+      input: false
+    },
+    {
+      type: 'checkbox',
+      label: 'As user I am agreed to terms and conditions',
+      key: 'terms_and_condition',
+      value: true,
+      validate: {
+        required: true
+      },
+    },
+    {
+      type: 'button',
+      action: 'submit',
+      label: 'Submit',
+      theme: 'primary'
+    }
+  ]
+}).then(function(form) {
+  form.on('submit', function(submission) {
+    console.log("Ajax call here")
+    console.log(submission);
+  });
+});
+</script>
