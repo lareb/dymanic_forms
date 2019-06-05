@@ -3,7 +3,7 @@
 	<div class="form-group">
 		<%= f.label "Title", :class => 'col-sm-2 control-label' %>
 		<div class="col-sm-10">
-			<%= f.select :component_type, FormElement.component_types.keys.to_a, :class => 'form-control' %>
+			<%= f.select :component_type, FormElement.component_types, :class => 'form-control' %>
 		</div>
 	</div>
 

@@ -8,7 +8,7 @@ class CreateFormElements < ActiveRecord::Migration[5.2]
       t.string  :tooltip
       t.string  :description, length: 512
 
-      t.integer :component_type
+      t.string :component_type
       t.json    :format
       t.json    :field_validation
       t.json    :datasets

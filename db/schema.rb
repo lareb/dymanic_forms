@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2019_05_28_105739) do
     t.string "field_placeholder"
     t.string "tooltip"
     t.string "description"
-    t.integer "component_type"
+    t.string "component_type"
     t.json "format"
     t.json "field_validation"
     t.json "datasets"

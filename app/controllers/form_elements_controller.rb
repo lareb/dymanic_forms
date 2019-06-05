@@ -10,7 +10,7 @@ class FormElementsController < ApplicationController
 
   def create
     puts "======================"
-    ap prepare_params
+    puts prepare_params
     # ap params
     @form_elements = @form.form_elements.new(prepare_params)
     if @form_elements.save
@@ -24,8 +24,19 @@ class FormElementsController < ApplicationController
   private
   def prepare_params
     # required"=>"0", "maxDate"=>"", "minDate"=>"", "maxLength"=>"100", "minLength"=>"10"
+    # puts "================dfwfwe"
+    # ap form_elements_params
     new_allow_params = form_elements_params
+
+    if(form_elements_params.has_key?(:component_type))
+      ap form_elements_params
+      # new_allow_params[:component_type] = replace_component_type(new_allow_params[:component_type])
+      # new_allow_params.delete(:component_type)
+    end
+
     if(form_elements_params.has_key?(:field_validation))
+      # new_allow_params[:type] = replace_component_type(new_allow_params[:component_type])
+
       new_allow_params[:field_validation][:required] = !new_allow_params[:field_validation][:required].blank?
       new_allow_params[:field_validation][:minLength] = new_allow_params[:field_validation][:minLength].to_i unless new_allow_params[:field_validation][:minLength].blank?
       new_allow_params[:field_validation][:maxLength] = new_allow_params[:field_validation][:maxLength].to_i unless new_allow_params[:field_validation][:maxLength].blank?
@@ -33,6 +44,15 @@ class FormElementsController < ApplicationController
       new_allow_params[:field_validation][:minDate] = Date.parse(new_allow_params[:field_validation][:minDate]).strftime('%Y-%m-%d') unless new_allow_params[:field_validation][:minDate].blank?
     end
     return new_allow_params
+  end
+
+  def replace_component_type(type)
+    case type
+    when 'select_box'
+      return 'select'
+    else
+      return type
+    end
   end
 
   def prepare_json
@@ -74,7 +94,9 @@ class FormElementsController < ApplicationController
   end
 
   def permit_keys
-    [:key, :label, :field_placeholder, :tooltip, :description, :component_type, :format,
+    [
+      :type,
+      :key, :label, :field_placeholder, :tooltip, :description, :component_type, :format,
       :field_validation => [:required, :maxLength, :minLength, :maxDate, :minDate],
       :date_validation => [:maxDate, :minDate],
       :datasets => [:values => [:label, :value]]
