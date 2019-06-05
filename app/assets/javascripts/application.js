@@ -16,3 +16,9 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require_tree .
+
+
+function addNewKeyValue(){
+  let keyValueForm = $("#sample-key-value-pair").html()
+  $("#sample-key-value-pair").after("<div class='form-group'>" + keyValueForm + "</div>")
+}

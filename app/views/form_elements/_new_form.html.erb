@@ -42,6 +42,51 @@
     </div>
   </div>
 
+	<div id="key_value_pair">
+		<div class="form-group">
+			<%= f.label "Datasets", :class => 'col-sm-2 control-label' %>
+			<div class="col-sm-4">
+				<input type="text" name="form_element[datasets][values][][label]" class="form-control" placeholder="Label" />
+			</div>
+			<div class="col-sm-4">
+				<input type="text" name="form_element[datasets][values][][value]" class="form-control" placeholder="Value" />
+			</div>
+			<div class="col-sm-2">
+				<a href="javascript:void(0)" onclick='return addNewKeyValue()' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
+			</div>
+		</div>
+
+		<div class="form-group" id='sample-key-value-pair'>
+			<%= f.label " ", :class => 'col-sm-2 control-label' %>
+			<div class="col-sm-4">
+				<input type="text" name="form_element[datasets][values][][label]" class="form-control" placeholder="Label" />
+			</div>
+			<div class="col-sm-4">
+				<input type="text" name="form_element[datasets][values][][value]" class="form-control" placeholder="Value" />
+			</div>
+			<div class="col-sm-2">
+				<a href="javascript:void(0)" onclick='return addNewKeyValue()' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="form-group">
+    <%= f.label "Validation", :class => 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+			<% FormElement.validations.each do |k, v|%>
+				<div class="checkbox">
+					<label><input type="checkbox" name="form_element[field_validation][<%= k%>]" value="<%= v%>"><%= k%></label>
+					<%if ['maxDate', 'minDate'].include?(k)%>
+						<input type="text" class="datepicker" data-date-format="dd/mm/yyyy" name="form_element[field_validation][<%= k%>]" />
+					<%elsif ['maxLength', 'minLength'].include?(k)%>
+						<input type="number" name="form_element[field_validation][<%= k%>]" max='500' min='1' />
+					<%end%>
+				</div>
+			<%end%>
+    </div>
+  </div>
+
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-4">
 			<%= button_tag(:class => 'btn btn-success') do %>
@@ -57,3 +102,12 @@
 
 	</div>
 <% end %>
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+		$('.datepicker').datepicker({
+    	startDate: '-128y',
+			endDate: '-18y'
+		});
+	})
+</script>

@@ -44,13 +44,17 @@ Formio.createForm(document.getElementById('formio'), {
       label: 'Date of Birth',
       placeholder: 'Enter your DOB',
       input: true,
-      format: 'dd MMM yyyy',
+      format: 'MM/dd/yyyy',
       enableDate: true,
       enableTime: false,
-      datePicker: true,
+      datePicker: {
+        maxDate: "1999-12-21",
+        minDate: "1999-10-08"
+      },
       defaultDate: "1999-12-31",
       validate: {
-        maxDate: "1999-12-31"
+        required: true,
+        invalid_date: 'invalid date',
       }
     },
     {

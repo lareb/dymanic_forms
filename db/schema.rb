@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2019_05_28_105739) do
     t.string "description"
     t.integer "component_type"
     t.json "format"
-    t.json "validation"
+    t.json "field_validation"
     t.json "datasets"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

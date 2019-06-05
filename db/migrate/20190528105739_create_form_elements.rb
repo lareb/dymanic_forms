@@ -10,7 +10,7 @@ class CreateFormElements < ActiveRecord::Migration[5.2]
 
       t.integer :component_type
       t.json    :format
-      t.json    :validation
+      t.json    :field_validation
       t.json    :datasets
 
       t.timestamps
