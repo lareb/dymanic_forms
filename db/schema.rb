@@ -12,10 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2019_05_28_105739) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "form_elements", force: :cascade do |t|
+  create_table "form_elements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "form_id", null: false
     t.string "key", null: false
     t.string "label"
@@ -30,7 +27,7 @@ ActiveRecord::Schema.define(version: 2019_05_28_105739) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "forms", force: :cascade do |t|
+  create_table "forms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
     t.boolean "is_active"
