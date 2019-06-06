@@ -9,6 +9,21 @@ Formio.createForm(document.getElementById('formio'), {
   form.on('submit', function(submission) {
     console.log("Ajax call here")
     console.log(submission);
+
+    // alert('Submission sent to custom endpoint. See developer console.');
+    return fetch('/home/create.json', {
+      body: JSON.stringify(submission),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      mode: 'cors',
+    }).then(response => {
+    form.emit('submitDone', submission)
+    response.json()
+  })
+
+
   });
 });
 </script>

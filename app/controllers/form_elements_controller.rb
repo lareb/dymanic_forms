@@ -1,6 +1,6 @@
 class FormElementsController < ApplicationController
   before_action :set_form
-  before_action :set_form_element, only: [:edit, :update, :destroy]
+  before_action :set_form_element, only: [:edit, :update, :destroy, :show]
 
   def index
     @form_element = FormElement.new
@@ -8,9 +8,14 @@ class FormElementsController < ApplicationController
     @preview_element = JSON.generate(prepare_json)
   end
 
+  def show
+    @form_elements = @form.form_elements
+    @preview_element = JSON.generate(prepare_json)
+  end
+
   def create
     puts "======================"
-    puts prepare_params
+    # puts prepare_params
     # ap params
     @form_elements = @form.form_elements.new(prepare_params)
     if @form_elements.save
@@ -24,15 +29,22 @@ class FormElementsController < ApplicationController
   private
   def prepare_params
     # required"=>"0", "maxDate"=>"", "minDate"=>"", "maxLength"=>"100", "minLength"=>"10"
-    # puts "================dfwfwe"
-    # ap form_elements_params
+    puts "================dfwfwe"
+    ap form_elements_params[:component_type]
     new_allow_params = form_elements_params
 
-    if(form_elements_params.has_key?(:component_type))
-      ap form_elements_params
+    if(form_elements_params[:component_type] == 'radio')
+      puts "38736579857936-------------"
+      new_allow_params.delete(:datasets)
+      new_allow_params[:datasets] = new_allow_params[:values]
+      new_allow_params.delete(:values)
+    end
+
+    # if(form_elements_params.has_key?(:component_type))
+      # ap form_elements_params
       # new_allow_params[:component_type] = replace_component_type(new_allow_params[:component_type])
       # new_allow_params.delete(:component_type)
-    end
+    # end
 
     if(form_elements_params.has_key?(:field_validation))
       # new_allow_params[:type] = replace_component_type(new_allow_params[:component_type])
@@ -43,6 +55,8 @@ class FormElementsController < ApplicationController
       new_allow_params[:field_validation][:maxDate] = Date.parse(new_allow_params[:field_validation][:maxDate]).strftime('%Y-%m-%d') unless new_allow_params[:field_validation][:maxDate].blank?
       new_allow_params[:field_validation][:minDate] = Date.parse(new_allow_params[:field_validation][:minDate]).strftime('%Y-%m-%d') unless new_allow_params[:field_validation][:minDate].blank?
     end
+    puts "-60544094------------"
+    ap new_allow_params
     return new_allow_params
   end
 
@@ -62,13 +76,23 @@ class FormElementsController < ApplicationController
       el.attributes.each do |k, v|
         new_hsh[k.to_sym] = v if permit_keys.include? k.to_sym
         new_hsh[:validate] = v  if k == 'field_validation'
-        new_hsh[:data] = v if k == 'datasets'
+
+
+
         new_hsh[:placeholder] = new_hsh[:field_placeholder]
         new_hsh[:type] = new_hsh[:component_type]
 
         # if(new_hsh[:type] == 'select_box')
         new_hsh[:type] = 'select' if new_hsh[:type] == 'select_box'
         # end
+        if(new_hsh[:type] == 'select')
+          new_hsh[:data] = v if k == 'datasets'
+        end
+
+        if(new_hsh[:type] == 'radio')
+          new_hsh[:values] = v if k == 'datasets'
+        end
+
 
         if(new_hsh[:type] == 'datetime')
           new_hsh[:format] = 'dd-MM-yyyy'
@@ -78,6 +102,9 @@ class FormElementsController < ApplicationController
       end
       permit_jsons << new_hsh
     end
+
+    permit_jsons << {type: 'button',action: 'submit',label: 'Submit',theme: 'primary'}
+
     return permit_jsons
   end
 
@@ -99,7 +126,8 @@ class FormElementsController < ApplicationController
       :key, :label, :field_placeholder, :tooltip, :description, :component_type, :format,
       :field_validation => [:required, :maxLength, :minLength, :maxDate, :minDate],
       :date_validation => [:maxDate, :minDate],
-      :datasets => [:values => [:label, :value]]
+      :datasets => [:values => [:label, :value]],
+      :values => [:label, :value]
     ]
   end
 end

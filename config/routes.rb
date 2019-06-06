@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'home/submit_form'
+  post 'home/create', defaults: { format: 'json' }
   resources :forms do
     resources :form_elements
   end

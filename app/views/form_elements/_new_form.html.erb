@@ -42,7 +42,7 @@
     </div>
   </div>
 
-	<div id="key_value_pair">
+	<div id="key_value_pair_select">
 		<div class="form-group">
 			<%= f.label "Datasets", :class => 'col-sm-2 control-label' %>
 			<div class="col-sm-4">
@@ -56,7 +56,7 @@
 			</div>
 		</div>
 
-		<div class="form-group" id='sample-key-value-pair'>
+		<div class="form-group" id='sample-key-value-pair-select'>
 			<%= f.label " ", :class => 'col-sm-2 control-label' %>
 			<div class="col-sm-4">
 				<input type="text" name="form_element[datasets][values][][label]" class="form-control" placeholder="Label" />
@@ -65,11 +65,40 @@
 				<input type="text" name="form_element[datasets][values][][value]" class="form-control" placeholder="Value" />
 			</div>
 			<div class="col-sm-2">
+				<a href="javascript:void(0)" onclick='return addNewKeyValue("sample-key-value-pair-select")' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
+			</div>
+		</div>
+	</div>
+
+	<div id="key_value_pair_radio">
+		<div class="form-group">
+			<%= f.label "Datasets", :class => 'col-sm-2 control-label' %>
+			<div class="col-sm-4">
+				<input type="text" name="form_element[values][][label]" class="form-control" placeholder="Label" />
+			</div>
+			<div class="col-sm-4">
+				<input type="text" name="form_element[values][][value]" class="form-control" placeholder="Value" />
+			</div>
+			<div class="col-sm-2">
 				<a href="javascript:void(0)" onclick='return addNewKeyValue()' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
 			</div>
 		</div>
 
+		<div class="form-group" id='sample-key-value-pair-radio'>
+			<%= f.label " ", :class => 'col-sm-2 control-label' %>
+			<div class="col-sm-4">
+				<input type="text" name="form_element[values][][label]" class="form-control" placeholder="Label" />
+			</div>
+			<div class="col-sm-4">
+				<input type="text" name="form_element[values][][value]" class="form-control" placeholder="Value" />
+			</div>
+			<div class="col-sm-2">
+				<a href="javascript:void(0)" onclick='return addNewKeyValue("sample-key-value-pair-radio")' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
+			</div>
+		</div>
 	</div>
+
+
 
 	<div class="form-group">
     <%= f.label "Validation", :class => 'col-sm-2 control-label' %>
