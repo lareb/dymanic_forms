@@ -1,44 +1,69 @@
 class FormElementsController < ApplicationController
-  before_action :set_form
-  before_action :set_form_element, only: [:edit, :update, :destroy, :show]
+  before_action :set_form, except: [:preview]
+  before_action :set_form_element, only: [:edit, :update, :destroy]
 
   def index
     @form_element = FormElement.new
     @form_elements = @form.form_elements
+    ap prepare_json
     @preview_element = JSON.generate(prepare_json)
   end
 
-  def show
+  def preview
+    @form = Form.find(params[:id])
     @form_elements = @form.form_elements
     @preview_element = JSON.generate(prepare_json)
   end
 
+  def edit
+  end
+
+  def update
+    if @form_element.update_attributes(prepare_params)
+      flash[:success] = "Form element has been successfully created"
+      redirect_to form_form_elements_path(@form)
+    else
+      render "edit"
+    end
+  end
+
   def create
-    puts "======================"
-    # puts prepare_params
-    # ap params
     @form_elements = @form.form_elements.new(prepare_params)
     if @form_elements.save
-      flash[:success] = "Form has been successfully created"
+      flash[:success] = "Form element has been successfully created"
       redirect_to form_form_elements_path(@form)
     else
       render "new"
     end
   end
 
+  def destroy
+    if @form_element.destroy
+      flash[:success] = "Form element has been successfully deleted"
+      redirect_to form_form_elements_path(@form)
+    end
+  end
+
   private
   def prepare_params
-    # required"=>"0", "maxDate"=>"", "minDate"=>"", "maxLength"=>"100", "minLength"=>"10"
-    puts "================dfwfwe"
-    ap form_elements_params[:component_type]
     new_allow_params = form_elements_params
 
+    if(form_elements_params[:component_type] == 'textfield' || form_elements_params[:component_type] == 'email' || form_elements_params[:component_type] == 'phoneNumber' || form_elements_params[:component_type] == 'datetime')
+      new_allow_params.delete(:datasets)
+      new_allow_params.delete(:values)
+    end
+
     if(form_elements_params[:component_type] == 'radio')
-      puts "38736579857936-------------"
       new_allow_params.delete(:datasets)
       new_allow_params[:datasets] = new_allow_params[:values]
       new_allow_params.delete(:values)
     end
+
+
+    if(form_elements_params[:component_type] == 'select')
+      new_allow_params.delete(:values)
+    end
+
 
     # if(form_elements_params.has_key?(:component_type))
       # ap form_elements_params
@@ -55,8 +80,7 @@ class FormElementsController < ApplicationController
       new_allow_params[:field_validation][:maxDate] = Date.parse(new_allow_params[:field_validation][:maxDate]).strftime('%Y-%m-%d') unless new_allow_params[:field_validation][:maxDate].blank?
       new_allow_params[:field_validation][:minDate] = Date.parse(new_allow_params[:field_validation][:minDate]).strftime('%Y-%m-%d') unless new_allow_params[:field_validation][:minDate].blank?
     end
-    puts "-60544094------------"
-    ap new_allow_params
+
     return new_allow_params
   end
 

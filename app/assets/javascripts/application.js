@@ -18,7 +18,8 @@
 //= require_tree .
 
 
-function addNewKeyValue(domId){
+function addNewKeyValue(domId, target){
+  console.log($("#sample-key-value-pair"));
   let keyValueForm = $("#"+domId).html()
-  $("#sample-key-value-pair").after("<div class='form-group'>" + keyValueForm + "</div>")
+  $("#"+target).after("<div class='form-group'>" + keyValueForm + "</div>")
 }

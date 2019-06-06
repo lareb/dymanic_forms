@@ -9,6 +9,7 @@
         <th>Title</th>
         <th>Active</th>
         <th>Actions</th>
+        <th>Field Definations</th>
         <th>Preview</th>
       </tr>
     </thead>
@@ -21,7 +22,8 @@
             <%= link_to 'Edit', edit_form_path(form), class: "btn btn-primary btn-xs" %>&nbsp;|&nbsp;
             <%= link_to 'Delete', form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-xs" %>
           </td>
-          <td><%= link_to 'Preview', form_form_elements_path(form), class: "btn btn-success btn-xs" %></td>
+          <td><%= link_to 'Fields', form_form_elements_path(form), class: "btn btn-success btn-xs" %></td>
+          <td><%= link_to 'Preview', preview_form_path(form), class: "btn btn-success btn-xs" %></td>
         </tr>
       <%end%>
     </tbody>

@@ -51,9 +51,9 @@
 			<div class="col-sm-4">
 				<input type="text" name="form_element[datasets][values][][value]" class="form-control" placeholder="Value" />
 			</div>
-			<div class="col-sm-2">
-				<a href="javascript:void(0)" onclick='return addNewKeyValue()' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
-			</div>
+			<!-- <div class="col-sm-2">
+				<a href="javascript:void(0)" onclick='return addNewKeyValue("sample-key-value-pair-select")' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
+			</div> -->
 		</div>
 
 		<div class="form-group" id='sample-key-value-pair-select'>
@@ -65,7 +65,7 @@
 				<input type="text" name="form_element[datasets][values][][value]" class="form-control" placeholder="Value" />
 			</div>
 			<div class="col-sm-2">
-				<a href="javascript:void(0)" onclick='return addNewKeyValue("sample-key-value-pair-select")' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
+				<a href="javascript:void(0)" onclick='return addNewKeyValue("sample-key-value-pair-select", "sample-key-value-pair-select")' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
 			</div>
 		</div>
 	</div>
@@ -79,9 +79,9 @@
 			<div class="col-sm-4">
 				<input type="text" name="form_element[values][][value]" class="form-control" placeholder="Value" />
 			</div>
-			<div class="col-sm-2">
+			<!-- <div class="col-sm-2">
 				<a href="javascript:void(0)" onclick='return addNewKeyValue()' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
-			</div>
+			</div> -->
 		</div>
 
 		<div class="form-group" id='sample-key-value-pair-radio'>
@@ -93,7 +93,7 @@
 				<input type="text" name="form_element[values][][value]" class="form-control" placeholder="Value" />
 			</div>
 			<div class="col-sm-2">
-				<a href="javascript:void(0)" onclick='return addNewKeyValue("sample-key-value-pair-radio")' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
+				<a href="javascript:void(0)" onclick='return addNewKeyValue("sample-key-value-pair-radio", "sample-key-value-pair-radio")' class='btn btn-success' ><span class="fa fa-plus fa-fw"></span> <%= t('button.add') %></a>
 			</div>
 		</div>
 	</div>
@@ -104,7 +104,7 @@
     <%= f.label "Validation", :class => 'col-sm-2 control-label' %>
     <div class="col-sm-10">
 			<% FormElement.validations.each do |k, v|%>
-				<div class="checkbox">
+				<div class="checkbox" id="validation-<%=k%>">
 					<label><input type="checkbox" name="form_element[field_validation][<%= k%>]" value="<%= v%>"><%= k%></label>
 					<%if ['maxDate', 'minDate'].include?(k)%>
 						<input type="text" class="datepicker" data-date-format="dd/mm/yyyy" name="form_element[field_validation][<%= k%>]" />
@@ -138,5 +138,50 @@
     	startDate: '-128y',
 			endDate: '-18y'
 		});
+		// hide fields
+		$("#key_value_pair_select").hide();
+		$("#key_value_pair_radio").hide();
+		$("#validation-maxDate").hide()
+		$("#validation-minDate").hide();
+		$("#validation-maxLength").show();
+		$("#validation-minLength").show();
+
+		// hide element based on component type
+		$("#form_element_component_type").change(function(obj){
+			console.log($(this).val())
+			let selectedFieldType = $(this).val()
+			if(selectedFieldType == 'select'){
+				$("#key_value_pair_select").show();
+				$("#key_value_pair_radio").hide();
+				$("#validation-maxDate").hide()
+				$("#validation-minDate").hide();
+				$("#validation-maxLength").hide();
+				$("#validation-minLength").hide();
+			}else if (selectedFieldType == 'datetime') {
+				$("#key_value_pair_select").hide();
+				$("#key_value_pair_radio").hide();
+				$("#validation-maxDate").show()
+				$("#validation-minDate").show();
+				$("#validation-maxLength").hide();
+				$("#validation-minLength").hide();
+			}else if (selectedFieldType == 'radio') {
+				$("#key_value_pair_select").hide();
+				$("#key_value_pair_radio").show();
+				$("#validation-maxDate").hide();
+				$("#validation-minDate").hide();
+				$("#validation-maxLength").hide();
+				$("#validation-minLength").hide();
+			}else{
+				// testfield, phone, email
+				$("#key_value_pair_select").hide();
+				$("#key_value_pair_radio").hide();
+				$("#validation-maxDate").hide()
+				$("#validation-minDate").hide();
+				$("#validation-maxLength").show();
+				$("#validation-minLength").show();
+			}
+		})
+
+
 	})
 </script>
